@@ -108,8 +108,8 @@ else:
 
 print("\n✅ Configuración completada")
 print(f"\nPrueba el login con Google en:")
-print(f"  http://localhost:3001/portal")
-print(f"  http://localhost:3001/proyectos")
-print(f"  http://localhost:3001/admin")
-print(f"  http://localhost:3001/cliente")
+print(f"  http://localhost:3001/portal/")
+print(f"  http://localhost:3001/proyectos/")
+print(f"  http://localhost:3001/admin/")
+print(f"  http://localhost:3001/cliente/")
 

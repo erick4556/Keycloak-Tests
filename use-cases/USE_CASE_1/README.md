@@ -101,10 +101,10 @@ docker-compose up -d
 
 2. **Acceder a las aplicaciones**:
    - Portal principal: http://localhost:3001
-   - Portal de Empleados: http://localhost:3001/portal
-   - Gestión de Proyectos: http://localhost:3001/proyectos
-   - Panel de Administración: http://localhost:3001/admin
-   - Aplicación Cliente: http://localhost:3001/cliente
+   - Portal de Empleados: http://localhost:3001/portal/
+   - Gestión de Proyectos: http://localhost:3001/proyectos/
+   - Panel de Administración: http://localhost:3001/admin/
+   - Aplicación Cliente: http://localhost:3001/cliente/
    - Keycloak Admin: http://localhost:8081 (admin/admin)
 
 ## Flujo de SSO Unificado

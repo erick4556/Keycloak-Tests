@@ -22,7 +22,7 @@ Debes ver 3 contenedores corriendo:
 
 ## Paso 2: Probar Login como Empleado
 
-1. Haz clic en **"Portal de Empleados"** o ve directamente a: **http://localhost:3001/portal**
+1. Haz clic en **"Portal de Empleados"** o ve directamente a: **http://localhost:3001/portal/**
 2. Serás redirigido a Keycloak para autenticarte
 3. Usa las credenciales:
    - **Usuario**: `juan.empleado`
@@ -34,14 +34,14 @@ Debes ver 3 contenedores corriendo:
 Una vez autenticado en el Portal de Empleados:
 
 1. En la misma sesión del navegador, abre una nueva pestaña
-2. Ve a: **http://localhost:3001/proyectos**
+2. Ve a: **http://localhost:3001/proyectos/**
 3. **NO deberías tener que autenticarte de nuevo** - esto es SSO funcionando
 4. Deberías acceder directamente a la aplicación de Gestión de Proyectos
 
 ## Paso 4: Probar como Ciudadano
 
 1. **Cierra la sesión** del empleado (botón "Cerrar Sesión")
-2. Ve a: **http://localhost:3001/cliente**
+2. Ve a: **http://localhost:3001/cliente/**
 3. Serás redirigido a Keycloak
 4. Usa las credenciales:
    - **Usuario**: `pedro.ciudadano`
@@ -53,13 +53,13 @@ Una vez autenticado en el Portal de Empleados:
 Este es el caso de riesgo documentado:
 
 1. **Cierra la sesión** actual
-2. Ve a: **http://localhost:3001/portal**
+2. Ve a: **http://localhost:3001/portal/**
 3. Usa las credenciales:
    - **Usuario**: `ana.empleado.ciudadano`
    - **Contraseña**: `empleado123`
 4. Verifica que tienes los roles: `empleado` y `ciudadano`
 5. Ahora, **sin cerrar sesión**, abre una nueva pestaña
-6. Ve a: **http://localhost:3001/cliente**
+6. Ve a: **http://localhost:3001/cliente/**
 7. **NO deberías tener que autenticarte** (SSO unificado)
 8. Deberías poder acceder a la aplicación cliente con el mismo usuario
 
@@ -76,10 +76,10 @@ Este es el caso de riesgo documentado:
 ## URLs Importantes
 
 - **Portal Principal**: http://localhost:3001
-- **Portal de Empleados**: http://localhost:3001/portal
-- **Gestión de Proyectos**: http://localhost:3001/proyectos
-- **Panel de Administración**: http://localhost:3001/admin
-- **Aplicación Cliente**: http://localhost:3001/cliente
+- **Portal de Empleados**: http://localhost:3001/portal/
+- **Gestión de Proyectos**: http://localhost:3001/proyectos/
+- **Panel de Administración**: http://localhost:3001/admin/
+- **Aplicación Cliente**: http://localhost:3001/cliente/
 - **Keycloak Admin**: http://localhost:8081 (admin/admin)
 
 ## Solución de Problemas

@@ -80,6 +80,47 @@
       background: #667eea;
       color: white;
     }
+    .role-selector {
+      background: #f6f8fa;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+      border: 2px solid #667eea;
+    }
+    .role-selector label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #667eea;
+    }
+    .role-selector select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 2px solid #667eea;
+      border-radius: 6px;
+      font-size: 14px;
+      background: white;
+      color: #333;
+      cursor: pointer;
+    }
+    .role-selector select:focus {
+      outline: none;
+      border-color: #5568d3;
+    }
+    .view-content {
+      margin-top: 24px;
+      padding: 16px;
+      background: #f6f8fa;
+      border-radius: 8px;
+      min-height: 100px;
+    }
+    .view-content h3 {
+      color: #667eea;
+      margin-top: 0;
+    }
+    .view-content.hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -97,13 +138,62 @@
           <div class="roles" id="user-roles"></div>
         </div>
       </div>
+      <div id="role-selector-container" style="display:none;">
+        <div class="role-selector">
+          <label for="role-select">Seleccionar Vista (Rol):</label>
+          <select id="role-select">
+            <option value="">Selecciona un rol...</option>
+          </select>
+        </div>
+      </div>
+      <div id="view-content-container">
+        <div id="view-empleado" class="view-content hidden">
+          <h3>Vista: Empleado</h3>
+          <p>Bienvenido como <strong>empleado</strong>. Aquí puedes:</p>
+          <ul>
+            <li>Ver tus tareas asignadas</li>
+            <li>Acceder a recursos corporativos</li>
+            <li>Consultar información de la empresa</li>
+          </ul>
+        </div>
+        <div id="view-manager" class="view-content hidden">
+          <h3>Vista: Manager</h3>
+          <p>Bienvenido como <strong>gerente</strong>. Aquí puedes:</p>
+          <ul>
+            <li>Gestionar proyectos y equipos</li>
+            <li>Revisar reportes de rendimiento</li>
+            <li>Asignar tareas a empleados</li>
+            <li>Acceder a herramientas de gestión</li>
+          </ul>
+        </div>
+        <div id="view-admin" class="view-content hidden">
+          <h3>Vista: Administrador</h3>
+          <p>Bienvenido como <strong>administrador</strong>. Aquí puedes:</p>
+          <ul>
+            <li>Gestionar usuarios y permisos</li>
+            <li>Configurar el sistema</li>
+            <li>Acceder a todas las funcionalidades</li>
+            <li>Ver logs y auditoría</li>
+          </ul>
+        </div>
+        <div id="view-ciudadano" class="view-content hidden">
+          <h3>Vista: Ciudadano</h3>
+          <p>Bienvenido como <strong>ciudadano</strong>. Aquí puedes:</p>
+          <ul>
+            <li>Acceder a servicios públicos</li>
+            <li>Realizar trámites en línea</li>
+            <li>Consultar información ciudadana</li>
+          </ul>
+          <p><a href="http://localhost:3001/cliente/" class="link-cliente" style="color: #667eea;">Ir a Aplicación Cliente</a></p>
+        </div>
+      </div>
       <button id="btn-refresh">Refrescar Token</button>
       <button id="btn-logout">Cerrar Sesión</button>
     </div>
     <div class="apps-links">
       <h3>Otras Aplicaciones (SSO)</h3>
-      <a href="http://localhost:3001/proyectos" id="link-proyectos">Gestión de Proyectos</a>
-      <a href="http://localhost:3001/admin" id="link-admin">Panel de Administración</a>
+      <a href="http://localhost:3001/proyectos/" id="link-proyectos">Gestión de Proyectos</a>
+      <a href="http://localhost:3001/admin/" id="link-admin">Panel de Administración</a>
     </div>
   </div>
 
@@ -192,11 +282,76 @@
       return data;
     }
 
+    // Roles relevantes (excluyendo roles del sistema)
+    const RELEVANT_ROLES = ['empleado', 'manager', 'admin', 'ciudadano'];
+    
+    function filterRelevantRoles(roles) {
+      return roles.filter(r => RELEVANT_ROLES.includes(r));
+    }
+
+    function showViewForRole(role) {
+      // Ocultar todas las vistas
+      document.querySelectorAll('.view-content').forEach(v => v.classList.add('hidden'));
+      
+      if (role) {
+        const viewId = `view-${role}`;
+        const viewEl = document.getElementById(viewId);
+        if (viewEl) {
+          viewEl.classList.remove('hidden');
+          // Configurar enlaces después de mostrar la vista
+          setTimeout(setupAppLinks, 100);
+        }
+      }
+    }
+
+    function setupRoleSelector(relevantRoles) {
+      const selectorContainer = document.getElementById("role-selector-container");
+      const roleSelect = document.getElementById("role-select");
+      
+      if (relevantRoles.length > 1) {
+        // Mostrar selector
+        selectorContainer.style.display = "block";
+        
+        // Limpiar opciones
+        roleSelect.innerHTML = '<option value="">Selecciona un rol...</option>';
+        
+        // Agregar opciones
+        relevantRoles.forEach(role => {
+          const option = document.createElement("option");
+          option.value = role;
+          option.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+          roleSelect.appendChild(option);
+        });
+        
+        // Obtener rol seleccionado previamente o usar el primero
+        const savedRole = store.get("selectedRole");
+        const initialRole = savedRole && relevantRoles.includes(savedRole) ? savedRole : relevantRoles[0];
+        roleSelect.value = initialRole;
+        store.set("selectedRole", initialRole);
+        showViewForRole(initialRole);
+        
+        // Event listener para cambio de rol
+        roleSelect.onchange = (e) => {
+          const selectedRole = e.target.value;
+          store.set("selectedRole", selectedRole);
+          showViewForRole(selectedRole);
+        };
+      } else if (relevantRoles.length === 1) {
+        // Solo un rol, no mostrar selector pero mostrar la vista
+        selectorContainer.style.display = "none";
+        showViewForRole(relevantRoles[0]);
+      } else {
+        // Sin roles relevantes
+        selectorContainer.style.display = "none";
+      }
+    }
+
     function showLoggedIn(tokens) {
       const idp = parseJWT(tokens.id_token || "");
       const atp = parseJWT(tokens.access_token || "");
       
-      const roles = atp.realm_access?.roles || [];
+      const allRoles = atp.realm_access?.roles || [];
+      const relevantRoles = filterRelevantRoles(allRoles);
       const username = idp.preferred_username || atp.preferred_username || "(desconocido)";
       const name = `${idp.given_name || ''} ${idp.family_name || ''}`.trim() || username;
       const email = idp.email || atp.email || "";
@@ -206,7 +361,10 @@
       document.getElementById("user-username").textContent = username;
       
       const rolesEl = document.getElementById("user-roles");
-      rolesEl.innerHTML = roles.map(r => `<span class="role-badge">${r}</span>`).join("");
+      rolesEl.innerHTML = allRoles.map(r => `<span class="role-badge">${r}</span>`).join("");
+
+      // Configurar selector de roles si hay más de uno
+      setupRoleSelector(relevantRoles);
 
       userInfoEl.style.display = "block";
       setStatus(`Autenticado como: ${name}`, false);
@@ -319,6 +477,20 @@
       e.preventDefault();
       window.location.href = "http://localhost:3001/admin/";
     };
+
+    // Manejar enlaces a otras aplicaciones
+    function setupAppLinks() {
+      document.querySelectorAll('.link-cliente').forEach(link => {
+        // Remover listeners anteriores si existen
+        link.replaceWith(link.cloneNode(true));
+      });
+      document.querySelectorAll('.link-cliente').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.location.href = 'http://localhost:3001/cliente/';
+        });
+      });
+    }
 
     main();
   </script>

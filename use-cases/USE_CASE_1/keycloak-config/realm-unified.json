@@ -30,7 +30,8 @@
       "publicClient": true,
       "redirectUris": [
         "http://localhost:3001/portal/*",
-        "http://localhost:3001/portal"
+        "http://localhost:3001/portal",
+        "http://localhost:3001/portal/"
       ],
       "webOrigins": [
         "http://localhost:3001"
@@ -52,7 +53,8 @@
       "publicClient": true,
       "redirectUris": [
         "http://localhost:3001/proyectos/*",
-        "http://localhost:3001/proyectos"
+        "http://localhost:3001/proyectos",
+        "http://localhost:3001/proyectos/"
       ],
       "webOrigins": [
         "http://localhost:3001"
@@ -74,7 +76,8 @@
       "publicClient": true,
       "redirectUris": [
         "http://localhost:3001/admin/*",
-        "http://localhost:3001/admin"
+        "http://localhost:3001/admin",
+        "http://localhost:3001/admin/"
       ],
       "webOrigins": [
         "http://localhost:3001"
@@ -96,7 +99,8 @@
       "publicClient": true,
       "redirectUris": [
         "http://localhost:3001/cliente/*",
-        "http://localhost:3001/cliente"
+        "http://localhost:3001/cliente",
+        "http://localhost:3001/cliente/"
       ],
       "webOrigins": [
         "http://localhost:3001"

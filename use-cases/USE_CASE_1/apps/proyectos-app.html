@@ -70,6 +70,39 @@
       background: #f5576c;
       color: white;
     }
+    .role-selector {
+      background: #f6f8fa;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+      border: 2px solid #f5576c;
+    }
+    .role-selector label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #f5576c;
+    }
+    .role-selector select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 2px solid #f5576c;
+      border-radius: 6px;
+      font-size: 14px;
+      background: white;
+      color: #333;
+      cursor: pointer;
+    }
+    .role-selector select:focus {
+      outline: none;
+      border-color: #e04a5f;
+    }
+    .view-content {
+      margin-top: 24px;
+    }
+    .view-content.hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -81,19 +114,62 @@
         <p><strong>Usuario:</strong> <span id="user-name"></span></p>
         <p><strong>Roles:</strong> <span id="user-roles"></span></p>
       </div>
-      <div id="content-area">
-        <div class="project-card">
-          <h3>Proyecto Alpha</h3>
-          <p>Estado: En progreso | Asignado a: Equipo de Desarrollo</p>
+      <div id="role-selector-container" style="display:none;">
+        <div class="role-selector">
+          <label for="role-select">Seleccionar Vista (Rol):</label>
+          <select id="role-select">
+            <option value="">Selecciona un rol...</option>
+          </select>
         </div>
-        <div class="project-card">
-          <h3>Proyecto Beta</h3>
-          <p>Estado: Planificación | Asignado a: Equipo de Gestión</p>
+      </div>
+      <div id="view-content-container" class="view-content">
+        <div id="view-empleado" class="view-content">
+          <div class="project-card">
+            <h3>Proyecto Alpha</h3>
+            <p>Estado: En progreso | Asignado a: Equipo de Desarrollo</p>
+          </div>
+          <div class="project-card">
+            <h3>Proyecto Beta</h3>
+            <p>Estado: Planificación | Asignado a: Equipo de Gestión</p>
+          </div>
         </div>
-        <div id="manager-content" style="display:none;">
+        <div id="view-manager" class="view-content hidden">
+          <div class="project-card">
+            <h3>Proyecto Alpha</h3>
+            <p>Estado: En progreso | Asignado a: Equipo de Desarrollo</p>
+          </div>
+          <div class="project-card">
+            <h3>Proyecto Beta</h3>
+            <p>Estado: Planificación | Asignado a: Equipo de Gestión</p>
+          </div>
           <div class="project-card">
             <h3>Proyecto Gamma (Solo Managers)</h3>
             <p>Estado: Revisión | Asignado a: Gerencia</p>
+          </div>
+        </div>
+        <div id="view-admin" class="view-content hidden">
+          <div class="project-card">
+            <h3>Proyecto Alpha</h3>
+            <p>Estado: En progreso | Asignado a: Equipo de Desarrollo</p>
+          </div>
+          <div class="project-card">
+            <h3>Proyecto Beta</h3>
+            <p>Estado: Planificación | Asignado a: Equipo de Gestión</p>
+          </div>
+          <div class="project-card">
+            <h3>Proyecto Gamma (Solo Managers)</h3>
+            <p>Estado: Revisión | Asignado a: Gerencia</p>
+          </div>
+          <div class="project-card">
+            <h3>Proyecto Delta (Solo Admin)</h3>
+            <p>Estado: Configuración | Asignado a: Administración</p>
+          </div>
+        </div>
+        <div id="view-ciudadano" class="view-content hidden">
+          <div class="project-card">
+            <h3>No hay proyectos disponibles</h3>
+            <p>Esta vista es para ciudadanos. Los proyectos corporativos no están disponibles.</p>
+            <p><a href="http://localhost:3001/cliente/" class="link-cliente" style="color: #f5576c;">Ir a Aplicación Cliente</a></p>
           </div>
         </div>
       </div>
@@ -102,8 +178,8 @@
     </div>
     <div class="apps-links">
       <h3>Otras Aplicaciones (SSO)</h3>
-      <a href="http://localhost:3001/portal" id="link-portal">Portal de Empleados</a>
-      <a href="http://localhost:3001/admin" id="link-admin">Panel de Administración</a>
+      <a href="http://localhost:3001/portal/" id="link-portal">Portal de Empleados</a>
+      <a href="http://localhost:3001/admin/" id="link-admin">Panel de Administración</a>
     </div>
   </div>
 
@@ -191,20 +267,84 @@
       return data;
     }
 
+    // Roles relevantes (excluyendo roles del sistema)
+    const RELEVANT_ROLES = ['empleado', 'manager', 'admin', 'ciudadano'];
+    
+    function filterRelevantRoles(roles) {
+      return roles.filter(r => RELEVANT_ROLES.includes(r));
+    }
+
+    function showViewForRole(role) {
+      // Ocultar todas las vistas
+      document.querySelectorAll('#view-content-container > .view-content').forEach(v => v.classList.add('hidden'));
+      
+      if (role) {
+        const viewId = `view-${role}`;
+        const viewEl = document.getElementById(viewId);
+        if (viewEl) {
+          viewEl.classList.remove('hidden');
+          // Configurar enlaces después de mostrar la vista
+          setTimeout(setupAppLinks, 100);
+        }
+      }
+    }
+
+    function setupRoleSelector(relevantRoles) {
+      const selectorContainer = document.getElementById("role-selector-container");
+      const roleSelect = document.getElementById("role-select");
+      
+      if (relevantRoles.length > 1) {
+        // Mostrar selector
+        selectorContainer.style.display = "block";
+        
+        // Limpiar opciones
+        roleSelect.innerHTML = '<option value="">Selecciona un rol...</option>';
+        
+        // Agregar opciones
+        relevantRoles.forEach(role => {
+          const option = document.createElement("option");
+          option.value = role;
+          option.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+          roleSelect.appendChild(option);
+        });
+        
+        // Obtener rol seleccionado previamente o usar el primero
+        const savedRole = store.get("selectedRole");
+        const initialRole = savedRole && relevantRoles.includes(savedRole) ? savedRole : relevantRoles[0];
+        roleSelect.value = initialRole;
+        store.set("selectedRole", initialRole);
+        showViewForRole(initialRole);
+        
+        // Event listener para cambio de rol
+        roleSelect.onchange = (e) => {
+          const selectedRole = e.target.value;
+          store.set("selectedRole", selectedRole);
+          showViewForRole(selectedRole);
+        };
+      } else if (relevantRoles.length === 1) {
+        // Solo un rol, no mostrar selector pero mostrar la vista
+        selectorContainer.style.display = "none";
+        showViewForRole(relevantRoles[0]);
+      } else {
+        // Sin roles relevantes
+        selectorContainer.style.display = "none";
+      }
+    }
+
     function showLoggedIn(tokens) {
       const idp = parseJWT(tokens.id_token || "");
       const atp = parseJWT(tokens.access_token || "");
       
-      const roles = atp.realm_access?.roles || [];
+      const allRoles = atp.realm_access?.roles || [];
+      const relevantRoles = filterRelevantRoles(allRoles);
       const username = idp.preferred_username || atp.preferred_username || "(desconocido)";
       const name = `${idp.given_name || ''} ${idp.family_name || ''}`.trim() || username;
 
       document.getElementById("user-name").textContent = name;
-      document.getElementById("user-roles").textContent = roles.join(", ");
+      document.getElementById("user-roles").textContent = allRoles.join(", ");
 
-      if (roles.includes("manager") || roles.includes("admin")) {
-        document.getElementById("manager-content").style.display = "block";
-      }
+      // Configurar selector de roles si hay más de uno
+      setupRoleSelector(relevantRoles);
 
       userInfoEl.style.display = "block";
       setStatus(`Autenticado como: ${name}`, false);
@@ -317,6 +457,19 @@
       e.preventDefault();
       window.location.href = "http://localhost:3001/admin/";
     };
+
+    // Manejar enlaces a otras aplicaciones
+    function setupAppLinks() {
+      document.querySelectorAll('.link-cliente').forEach(link => {
+        link.replaceWith(link.cloneNode(true));
+      });
+      document.querySelectorAll('.link-cliente').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.location.href = 'http://localhost:3001/cliente/';
+        });
+      });
+    }
 
     main();
   </script>
