@@ -9,6 +9,7 @@ Este caso de uso implementa Single Sign-On (SSO) para aplicaciones corporativas 
 - ✅ Permitir que usuarios corporativos accedan a múltiples aplicaciones con una sola autenticación
 - ✅ Permitir que ciudadanos accedan a servicios públicos con una sola autenticación
 - ✅ **Permitir que un empleado actúe como ciudadano en la misma sesión**
+- ✅ **Implementar autenticación de dos factores (2FA) con TOTP para pruebas de seguridad**
 - ⚠️ Gestionar y documentar los riesgos de seguridad de sesiones duales
 
 ## Arquitectura
@@ -136,6 +137,87 @@ docker-compose up -d
 3. Acceder a Aplicación Cliente → ✅ Debe funcionar (tiene ambos roles)
 4. **Verificar que no haya conflictos de autorización**
 
+### Caso 4: Autenticación de dos factores (2FA)
+1. Habilitar 2FA para un usuario (ver sección "Autenticación de Dos Factores" abajo)
+2. Login como usuario con 2FA habilitado
+3. Después de ingresar usuario/contraseña, Keycloak pedirá configurar TOTP
+4. Escanear código QR con app autenticadora (Google Authenticator, Authy, etc.)
+5. Ingresar código de verificación
+6. A partir de entonces, cada login requerirá código TOTP
+
+## Autenticación de Dos Factores (2FA)
+
+### Configuración del Realm
+
+El realm `unified-realm` ya tiene habilitada la acción requerida `CONFIGURE_TOTP` en la configuración. Esto permite que los usuarios configuren 2FA cuando sea necesario.
+
+### Habilitar 2FA para un Usuario
+
+Tienes **tres opciones** para habilitar 2FA:
+
+#### Opción 1: Desde el Panel de Keycloak (Recomendado para pruebas)
+
+1. Accede al Admin Console: http://localhost:8081 (admin/admin)
+2. Selecciona el realm `unified-realm`
+3. Ve a **Users** → Busca el usuario
+4. Abre el usuario → Pestaña **Credentials**
+5. Haz clic en **Set up authenticator application**
+6. El usuario deberá configurar TOTP en su próximo login
+
+#### Opción 2: Usando el Script Python (Recomendado para automatización)
+
+```bash
+cd use-cases/USE_CASE_1/scripts
+python3 enable-2fa-user.py <username>
+```
+
+Ejemplo:
+```bash
+python3 enable-2fa-user.py carlos.admin
+```
+
+Para enviar un email al usuario:
+```bash
+python3 enable-2fa-user.py carlos.admin --email
+```
+
+#### Opción 3: Hacer 2FA Obligatorio para Todos los Usuarios
+
+1. Accede al Admin Console: http://localhost:8081
+2. Selecciona el realm `unified-realm`
+3. Ve a **Authentication** → **Required Actions**
+4. Busca **Configure OTP** y haz clic en el menú (⋮)
+5. Selecciona **Set as default action**
+6. Esto hará que todos los usuarios nuevos deban configurar 2FA
+
+### Flujo de Usuario con 2FA
+
+1. **Primera vez (Configuración)**:
+   - Usuario inicia sesión con usuario/contraseña
+   - Keycloak muestra pantalla para configurar TOTP
+   - Usuario escanea código QR con app autenticadora
+   - Usuario ingresa código de verificación
+   - 2FA queda configurado
+
+2. **Logins posteriores**:
+   - Usuario ingresa usuario/contraseña
+   - Keycloak pide código TOTP
+   - Usuario ingresa código de su app autenticadora
+   - Acceso concedido
+
+### Aplicaciones de Autenticación Recomendadas
+
+- **Google Authenticator** (iOS/Android)
+- **Microsoft Authenticator** (iOS/Android)
+- **Authy** (iOS/Android/Desktop)
+- **1Password** (iOS/Android/Desktop)
+
+### Deshabilitar 2FA para un Usuario
+
+1. Admin Console → Users → Seleccionar usuario
+2. Pestaña **Credentials**
+3. Buscar **OTP Credential** y hacer clic en **Remove**
+
 ## Próximos Pasos
 
 - [ ] Implementar validación de roles específica por contexto en cada aplicación
@@ -151,4 +233,6 @@ docker-compose up -d
 - [Documentación de Keycloak - Realms](https://www.keycloak.org/docs/latest/server_admin/#_realms)
 - [Documentación de Keycloak - SSO](https://www.keycloak.org/docs/latest/securing_apps/#_sso)
 - [Documentación de Keycloak - Roles](https://www.keycloak.org/docs/latest/server_admin/#_roles)
+- [Documentación de Keycloak - Two-Factor Authentication](https://www.keycloak.org/docs/latest/server_admin/#_otp)
+- [Documentación de Keycloak - Required Actions](https://www.keycloak.org/docs/latest/server_admin/#_required_actions)
 - [USE_CASES.md](../../USE_CASES.md) - Documento principal con todos los casos de uso
