@@ -173,7 +173,6 @@
           </div>
         </div>
       </div>
-      <button id="btn-refresh">Refrescar Token</button>
       <button id="btn-logout">Cerrar Sesión</button>
     </div>
     <div class="apps-links">
@@ -415,29 +414,6 @@
         setStatus("Error: " + e.message, true);
       }
     }
-
-    document.getElementById("btn-refresh").onclick = async () => {
-      try {
-        const tokens = store.get("tokens");
-        if (!tokens?.refresh_token) throw new Error("No hay refresh_token.");
-        const body = new URLSearchParams({
-          grant_type: "refresh_token",
-          client_id: clientId,
-          refresh_token: tokens.refresh_token
-        });
-        const res = await fetch(OIDC.token, {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error((data && (data.error_description || data.error)) || res.statusText);
-        store.set("tokens", { ...tokens, ...data });
-        showLoggedIn(store.get("tokens"));
-      } catch (e) {
-        setStatus("Error refrescando token: " + e.message, true);
-      }
-    };
 
     document.getElementById("btn-logout").onclick = () => {
       const tokens = store.get("tokens");
