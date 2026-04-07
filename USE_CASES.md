@@ -7,7 +7,7 @@ This document describes the use cases identified for implementing Keycloak in th
 | Use Case | Description | Status | Folder |
 |----------|-------------|--------|--------|
 | USE_CASE_1 | Single Sign-On (SSO) in corporate and citizen applications | ✅ In progress | `use-cases/USE_CASE_1/` |
-| USE_CASE_2 | Machine authentication - WEB services - Secrets vault | ⏳ Pending | `use-cases/USE_CASE_2/` |
+| USE_CASE_2 | Machine authentication - WEB services - Secrets vault | ✅ In progress | `use-cases/USE_CASE_2/` |
 | USE_CASE_3 | Citizen identification (natural + legal + European persons) | ⏳ Pending | `use-cases/USE_CASE_3/` |
 | USE_CASE_4 | Application-level authorization | ⏳ Pending | `use-cases/USE_CASE_4/` |
 | USE_CASE_5 | Decentralized permission management (2 levels) | ⏳ Pending | `use-cases/USE_CASE_5/` |
@@ -71,8 +71,14 @@ Authentication of machines and WEB services, including integration with secrets 
   - mTLS (Mutual TLS)
 - **Integration**: Secrets vault (Passbolt)
 
+### Current Implementation
+- ✅ Realm `machine-realm` with clients for service-to-service authentication
+- ✅ `app-x` consuming secrets from Passbolt real with a GPG-authenticated service account
+- ✅ `app-x` obtaining token from Keycloak via Client Credentials Grant
+- ✅ `app-z` protected API validating tokens with Keycloak introspection
+
 ### Status
-⏳ Pending implementation
+✅ In progress
 
 **Folder**: `use-cases/USE_CASE_2/`
 

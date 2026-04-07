@@ -18,3 +18,12 @@ docker-compose.override.yml
 .DS_Store
 Thumbs.db
 
+# Local Passbolt setup artifacts
+keys/
+*.out
+setup-*.json
+setup-*.env
+register-user.out
+resource-types.out
+users-me.out
+passbolt-token.out
