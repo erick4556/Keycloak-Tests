@@ -9,7 +9,7 @@ This document describes the use cases identified for implementing Keycloak in th
 | USE_CASE_1 | Single Sign-On (SSO) in corporate and citizen applications | ✅ Done | `use-cases/USE_CASE_1/` |
 | USE_CASE_2 | Machine authentication - WEB services - Secrets vault | ✅ Done | `use-cases/USE_CASE_2/` |
 | USE_CASE_3 | Citizen identification (natural + legal + European persons) | ✅ Done | `use-cases/USE_CASE_3/` |
-| USE_CASE_4 | Application-level authorization | ⏳ Pending | `use-cases/USE_CASE_4/` |
+| USE_CASE_4 | Application-level authorization | ✅ Done | `use-cases/USE_CASE_4/` |
 | USE_CASE_5 | Decentralized permission management (2 levels) | ⏳ Pending | `use-cases/USE_CASE_5/` |
 | USE_CASE_6 | External applications send data to city council | ⏳ Pending | `use-cases/USE_CASE_6/` |
 | USE_CASE_7 | Different identity providers + different security levels | ⏳ Pending | `use-cases/USE_CASE_7/` |
@@ -132,8 +132,13 @@ Implementation of application-level authorization, allowing granular control of 
 - Integrate with existing applications
 - Manage permissions at application level
 
+### Coverage
+This use case is covered by existing implementations:
+- **USE_CASE_1**: RBAC enforced per application — roles `empleado`, `manager`, `admin`, `ciudadano` control access to each app at the application layer
+- **USE_CASE_2**: Authorization at API level — App Z validates Bearer token via Keycloak introspection before granting access to any resource
+
 ### Status
-⏳ Pending
+✅ Done — covered by USE_CASE_1 and USE_CASE_2
 
 **Folder**: `use-cases/USE_CASE_4/`
 

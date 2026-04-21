@@ -75,9 +75,9 @@ See [use-cases/USE_CASE_3/README.md](./use-cases/USE_CASE_3/README.md) for detai
 
 ---
 
-### USE_CASE_4: Application-Level Authorization ⏳
+### USE_CASE_4: Application-Level Authorization ✅
 
-**Status**: Pending
+**Status**: Done — covered by USE_CASE_1 and USE_CASE_2
 
 **Location**: `use-cases/USE_CASE_4/`
 
