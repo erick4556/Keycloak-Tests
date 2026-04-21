@@ -9,6 +9,11 @@ This document describes the use cases identified for implementing Keycloak in th
 | USE_CASE_1 | Single Sign-On (SSO) in corporate and citizen applications | ✅ Done | `use-cases/USE_CASE_1/` |
 | USE_CASE_2 | Machine authentication - WEB services - Secrets vault | ✅ Done | `use-cases/USE_CASE_2/` |
 | USE_CASE_3 | Citizen identification (natural + legal + European persons) | ✅ Done | `use-cases/USE_CASE_3/` |
+| USE_CASE_4 | Application-level authorization | ⏳ Pending | `use-cases/USE_CASE_4/` |
+| USE_CASE_5 | Decentralized permission management (2 levels) | ⏳ Pending | `use-cases/USE_CASE_5/` |
+| USE_CASE_6 | External applications send data to city council | ⏳ Pending | `use-cases/USE_CASE_6/` |
+| USE_CASE_7 | Different identity providers + different security levels | ⏳ Pending | `use-cases/USE_CASE_7/` |
+| USE_CASE_8 | Usage from supported applications (e.g.: GeoServer) | ⏳ Pending | `use-cases/USE_CASE_8/` |
 
 ---
 
@@ -113,6 +118,110 @@ See [use-cases/USE_CASE_3/README.md](./use-cases/USE_CASE_3/README.md) for local
 ✅ Done
 
 **Folder**: `use-cases/USE_CASE_3/`
+
+---
+
+## USE_CASE_4: Application-Level Authorization
+
+### Description
+Implementation of application-level authorization, allowing granular control of access to resources and functionalities.
+
+### Objectives
+- Implement Role-Based Access Control (RBAC)
+- Implement Attribute-Based Access Control (ABAC)
+- Integrate with existing applications
+- Manage permissions at application level
+
+### Status
+⏳ Pending
+
+**Folder**: `use-cases/USE_CASE_4/`
+
+---
+
+## USE_CASE_5: Decentralized Permission Management
+
+### Description
+Decentralized permission management in 2 levels:
+1. **Generic authorization level**: Profile assignment
+2. **Application-specific level**: With functional levels (e.g.: organizational entity)
+
+### Objectives
+- Implement two-level permission management system
+- Level 1: Generic authorization (profiles)
+- Level 2: Application-specific authorization (organizational entity, etc.)
+- Allow decentralized management
+
+### Status
+⏳ Pending
+
+**Folder**: `use-cases/USE_CASE_5/`
+
+---
+
+## USE_CASE_6: External Applications Send Data to City Council
+
+### Description
+Allow external applications to send data to the city council securely and authenticated.
+
+### Objectives
+- Authenticate external applications
+- Authorize data sending
+- Ensure data integrity and confidentiality
+- Implement transaction auditing
+
+### Status
+⏳ Pending
+
+**Folder**: `use-cases/USE_CASE_6/`
+
+---
+
+## USE_CASE_7: Different Identity Providers + Different Security Levels
+
+### Description
+Integration of different identity providers with different security levels:
+- LDAP
+- Novell
+- Certificate
+- Open government platform
+
+### Objectives
+- Integrate multiple identity providers
+- Manage different security levels according to provider
+- Unify access through Keycloak
+- Maintain compatibility with existing systems
+
+### Identified Providers
+- LDAP
+- Novell
+- Electronic certificate
+- Open government platform
+
+### Status
+⏳ Pending
+
+**Folder**: `use-cases/USE_CASE_7/`
+
+---
+
+## USE_CASE_8: Usage from Supported Applications (e.g.: GeoServer)
+
+### Description
+Allow the use of Keycloak from applications that have native support, such as GeoServer.
+
+### Objectives
+- Integrate Keycloak with GeoServer
+- Configure authentication and authorization
+- Document the process for other similar applications
+
+### Identified Applications
+- GeoServer
+
+### Status
+⏳ Pending
+
+**Folder**: `use-cases/USE_CASE_8/`
 
 ---
 

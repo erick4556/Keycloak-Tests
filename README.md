@@ -12,7 +12,12 @@ keycloak-demo/
 ├── use-cases/                # Folder with all use cases
 │   ├── USE_CASE_1/            # SSO in corporate and citizen applications
 │   ├── USE_CASE_2/            # Machine authentication - WEB services - Secrets vault
-│   └── USE_CASE_3/            # Citizen identification (external repo)
+│   ├── USE_CASE_3/            # Citizen identification (external repo)
+│   ├── USE_CASE_4/            # Application-level authorization
+│   ├── USE_CASE_5/            # Decentralized permission management
+│   ├── USE_CASE_6/            # External applications send data
+│   ├── USE_CASE_7/            # Different identity providers
+│   └── USE_CASE_8/            # Usage from supported applications
 └── [shared configuration files]
 ```
 
@@ -67,6 +72,56 @@ See [use-cases/USE_CASE_2/README.md](./use-cases/USE_CASE_2/README.md) for more 
 **Repository**: [https://github.com/manabcodes/Keycloak-Tests-7](https://github.com/manabcodes/Keycloak-Tests-7)
 
 See [use-cases/USE_CASE_3/README.md](./use-cases/USE_CASE_3/README.md) for details and access instructions.
+
+---
+
+### USE_CASE_4: Application-Level Authorization ⏳
+
+**Status**: Pending
+
+**Location**: `use-cases/USE_CASE_4/`
+
+**Description**: Implementation of application-level authorization allowing granular control of access to resources and functionalities (RBAC / ABAC).
+
+---
+
+### USE_CASE_5: Decentralized Permission Management ⏳
+
+**Status**: Pending
+
+**Location**: `use-cases/USE_CASE_5/`
+
+**Description**: Two-level decentralized permission management: generic authorization (profiles) and application-specific authorization (organizational entity, etc.).
+
+---
+
+### USE_CASE_6: External Applications Send Data ⏳
+
+**Status**: Pending
+
+**Location**: `use-cases/USE_CASE_6/`
+
+**Description**: Allow external applications to send data to the city council securely and authenticated, with transaction auditing.
+
+---
+
+### USE_CASE_7: Different Identity Providers + Security Levels ⏳
+
+**Status**: Pending
+
+**Location**: `use-cases/USE_CASE_7/`
+
+**Description**: Integration of different identity providers (LDAP, Novell, certificate, open government platform) with different security levels through a unified Keycloak layer.
+
+---
+
+### USE_CASE_8: Usage from Supported Applications ⏳
+
+**Status**: Pending
+
+**Location**: `use-cases/USE_CASE_8/`
+
+**Description**: Allow the use of Keycloak from applications that have native support, such as GeoServer.
 
 ---
 
