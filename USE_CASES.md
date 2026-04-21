@@ -12,8 +12,8 @@ This document describes the use cases identified for implementing Keycloak in th
 | USE_CASE_4 | Application-level authorization | ✅ Done | `use-cases/USE_CASE_4/` |
 | USE_CASE_5 | Decentralized permission management (2 levels) | ⏳ Pending | `use-cases/USE_CASE_5/` |
 | USE_CASE_6 | External applications send data to city council | ⏳ Pending | `use-cases/USE_CASE_6/` |
-| USE_CASE_7 | Different identity providers + different security levels | ⏳ Pending | `use-cases/USE_CASE_7/` |
-| USE_CASE_8 | Usage from supported applications (e.g.: GeoServer) | ⏳ Pending | `use-cases/USE_CASE_8/` |
+| USE_CASE_7 | Different identity providers + different security levels | To be merged | `use-cases/USE_CASE_7/` |
+| USE_CASE_8 | Usage from supported applications (e.g.: GeoServer) | To be merged | `use-cases/USE_CASE_8/` |
 
 ---
 
